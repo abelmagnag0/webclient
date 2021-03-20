@@ -3,7 +3,7 @@ const mongoose = require('../database/conectar')
 const CardapioScheme = mongoose.Schema({
 
     id_interno: {
-        type: String,
+        type: Number,
         require: true
     },
     id_pdv: {

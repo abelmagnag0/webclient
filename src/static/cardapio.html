@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: blueviolet;
+      margin: 15% 6%;
+    }
+
+    .corpo {
+      background-color: white;
+      border-radius: 3px;
+      border-bottom: white;
+      border-left: white;
+      border-right-color: white;
+      border-top-color: white;
+      display: block;
+      height: 600px;
+      width: 800px;
+      padding: 12px;
+    }
+
+    .title {
+      font-family: Helvetica, sans-serif;
+      margin-left: 1.5rem;
+    }
+
+    .corpo form {
+      max-width: 500px;
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .input-camp {
+      width: 100%;
+    }
+
+    .input-camp label {
+      display: block;
+    }
+
+    .input-camp input {
+      width: 48%;
+      padding: 3px;
+      margin-top: 5px;
+    }
+
+    .corpo form button {
+      margin-top: 3px;
+
+    }
+  </style>
+  <title>Abel</title>
+
+</head>
+
+<body onload="pegarItens()">
+  <div class="corpo">
+    <h1 class="title">Cardápio</h1>
+    <form method="POST" id="form">
+      <div class="input-camp">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required>
+      </div>
+      <div class="input-camp">
+        <label for="descricao">Descrição</label>
+        <input type="text" id="descricao" name="descricao" required>
+      </div>
+      <div class="input-camp">
+        <label for="categoria">Categoria</label>
+        <input type="text" id="categoria" name="categoria" required>
+      </div>
+      <div class="input-camp">
+        <label for="valor">Valor</label>
+        <input type="text" id="valor" name="valor" required>
+      </div>
+      <div class="input-camp">
+        <label for="adicional">Adicional</label>
+        <input type="text" id="adicional" name="adicional">
+      </div>
+      <div class="input-camp">
+        <label for="id-pdv">ID PDV</label>
+        <input type="text" id="id-pdv" name="id-pdv" required>
+      </div>
+
+      <button id="btn" type="submit">Submit</button>
+    </form>
+
+    <h3>Cardápio atual</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>|NOME|</th>
+          <th>|DESCRIÇÃO|</th>
+          <th>|CATEGORIA|</th>
+          <th>|VALOR|</th>
+          <th>|ADICIONAL|</th>
+          <th>|ID INTERNO|</th>
+          <th>|ID PDV|</th>
+        </tr>
+      </thead>
+      <tbody id="tabela"></tbody>
+    </table>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous"></script>
+  <script src="/js/pagina-cardapio.js"></script>
+</body>
+
+</html>
