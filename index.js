@@ -19,10 +19,16 @@ async function pegarItens() {
 async function idInterno() {
   let itens = await pegarItens()
   itens = JSON.parse(itens)
-  itens = itens.length
 
-  let idInterno = itens == 0 ? 1 : itens + 1
-  return idInterno
+  if (itens.length === 0) {
+    let ultimoID = 1
+    return ultimoID
+  }
+
+  let indice = itens.reverse()
+  let ultimoID = indice[0].id_interno
+
+  return ultimoID + 1
 }
 
 // criar servidor
@@ -55,9 +61,34 @@ const server = http.createServer(function (req, res) {
         res.end("Cadastro efetuado")
         // DELETE LOGIC
       } else if (method == 'DELETE' && url == '/cardapio') {
-        // a fazer
 
-      } else {
+        // a fazer
+        const item = JSON.parse(body)
+        const idDeletado = Number(item.id_interno)
+
+        Cadastro.deleteOne({ id_interno: idDeletado }, error => {
+          if (error) return console.log(error)
+        })
+        res.end("Deletado")
+        // PUT LOGIC
+      } else if (method == 'PUT' && url == '/cardapio') {
+
+        const data = JSON.parse(body)
+        const { nome, descricao, categoria, valor, adicional, idPdv, id} = data.data
+        
+        Cadastro.updateOne({id_interno: id}, {
+          nome,
+          descricao,
+          categoria,
+          valor,
+          adicional,
+          idPdv
+        }, (error, response) => {
+          console.log(response)
+        })
+
+      }
+      else {
         serve(req, res, finalhandler(req, res))
       }
 

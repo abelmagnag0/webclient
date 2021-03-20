@@ -13,7 +13,7 @@ const CardapioScheme = mongoose.Schema({
     nome: {
         type: String,
         require: true
-    }, 
+    },
     descricao: {
         type: String,
         require: true
