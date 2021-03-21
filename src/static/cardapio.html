@@ -94,9 +94,11 @@
         <label for="valor">Valor</label>
         <input type="text" id="valor" name="valor" required>
       </div>
-      <div class="input-camp">
-        <label for="adicional">Adicional</label>
-        <input type="text" id="adicional" name="adicional">
+      <div class="input-camp select">
+        <label for="adicional">Adicional <button type="button" id="btnAdicional">Clique para mais adicionais</button></label>
+        <select name="adicional" id="adicional" class="adicional">
+          <option value="">Selecione o(s) adicional(is)</option>
+        </select>
       </div>
       <div class="input-camp">
         <label for="id-pdv">ID PDV</label>
@@ -117,6 +119,7 @@
           <th>|ADICIONAL|</th>
           <th>|ID INTERNO|</th>
           <th>|ID PDV|</th>
+          <th>|OPÇÕES|</th>
         </tr>
       </thead>
       <tbody id="tabela"></tbody>

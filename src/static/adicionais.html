@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,25 +24,30 @@
       padding: 12px;
     }
 
-    .title {
-      font-family: Helvetica, sans-serif;
-      margin-left: 1.5rem;
-
+    header.title {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .title a{
-      color: #9871f5;
-      text-decoration: none;
-      font-size: 1rem;
+
+    header.title span{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .title a:hover{
+    header.title span a{
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 1.5rem 2rem;
+      color: #9871f5;
+    }
+    header.title span a:hover{
       color: #774fd1;
     }
-    table{
+    table {
       margin-bottom: 50px;
     }
+
     form {
       max-width: 500px;
       margin: auto 0;
@@ -50,6 +56,7 @@
       align-items: center;
       justify-content: center;
     }
+
     .input-camp {
       width: 100%;
     }
@@ -58,7 +65,7 @@
       display: block;
     }
 
-    .input-camp input {
+    .input-camp input, select {
       width: 48%;
       padding: 3px;
       margin-top: 5px;
@@ -73,24 +80,44 @@
 
 </head>
 
-<body onload="pegarCategorias()">
+<body onload="pegarAdicionais()">
   <div class="corpo">
-    <h1 class="title">Todas Categorias</h1>
+    <header class="title">
+      <h1>Todos adicionais</h1>
+      <span>
+        <a href="categoria.html">Editar categorias</a>
+        <a href="cardapio.html">Cardápio</a>
+      </span>
+    </header>
+
     <table>
       <thead>
         <tr>
-          <th>Título</th>
+          <th>Adicional</th>
+          <th>Valor</th>
+          <th>Categoria</th>
           <th>Opções</th>
         </tr>
       </thead>
       <tbody id="tabela">
+        
       </tbody>
     </table>
 
-    <form method="POST">
+    <form method="POST" id="form">
       <div class="input-camp">
         <label for="nome">Nome</label>
         <input type="text" id="nome" name="nome" required>
+      </div>
+      <div class="input-camp">
+        <label for="valor">Valor</label>
+        <input type="text" id="valor" name="valor" required>
+      </div>
+      <div class="input-camp">
+        <label for="categorias">Categoria</label>
+        <select name="categorias" id="categorias">
+          <option value="">Selecione a categoria</option>
+        </select>
       </div>
 
       <button id="btnCriar" type="submit">Submit</button>

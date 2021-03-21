@@ -1,14 +1,19 @@
 const mongoose = require('../database/conectar')
 const Schema = mongoose.Schema;
+const Categoria = require('./categoria');
 
 const AdicionalSchema = new Schema({
-  title: {
+  nome: {
     type: String,
     required: true
   },
   valor: {
     type: String,
     required: true
+  },
+  categoria: {
+    type: Schema.Types.ObjectId,
+    ref: 'categoria'
   }
 });
 

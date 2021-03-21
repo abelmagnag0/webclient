@@ -2,6 +2,7 @@ const mongoose = require('../database/conectar')
 const Schema = mongoose.Schema
 
 const Categoria = require('./categoria');
+const Adicional = require('./adicional')
 
 const CardapioSchema = mongoose.Schema({
 
@@ -29,13 +30,12 @@ const CardapioSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    adicional: {
-        // type: Schema.Types.ObjectId,
-        // ref: 'adicional'
-        type: String,
-        require: true
-    }
-
+    adicional: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'adicional'
+        }
+    ]
 })
 
 const CardapioModel = mongoose.model('produtos', CardapioSchema)

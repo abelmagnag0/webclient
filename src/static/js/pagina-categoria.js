@@ -30,7 +30,7 @@ function atualizarTabela() {
   categoriasCadastradas.forEach(categoria => {
     const tr = document.createElement("tr")
 
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 2; i++) {
       let td = document.createElement("td")
 
       switch (i) {
@@ -43,8 +43,7 @@ function atualizarTabela() {
           btnEditar.innerHTML = "Editar"
           btnEditar.addEventListener("click", alterarCategoria)
           td.appendChild(btnEditar)
-          break;
-        case 3:
+  
           const btnRemover = document.createElement("button")
           btnRemover.dataset.id = categoria._id
           btnRemover.innerHTML = "Remover"
@@ -62,7 +61,11 @@ function atualizarTabela() {
 async function alterarCategoria() {
   const id = this.dataset.id
   const novoNome = prompt("Novo nome da categoria:")
-  
+
+  if(novoNome == ""){
+    alert("Espaço vazio! Favor preencher com a nova categoria")
+    return
+  }
     const res = await axios({
       method: 'PUT',
       url: '/categoria',

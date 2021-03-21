@@ -1,8 +1,8 @@
 const Cadastro = require('./arquivos/modelos/cardapio'); // chamando a db
 const Adicional = require('./arquivos/modelos/adicional');
 const Categoria = require('./arquivos/modelos/categoria');
-const http = require("http"); 
-const host = 'localhost'; 
+const http = require("http");
+const host = 'localhost';
 const port = 8000;
 
 // servidor html
@@ -40,6 +40,19 @@ async function pegarCategorias() {
   return JSON.stringify(categorias)
 }
 
+// função GET adicionais
+async function pegarAdicionais() {
+  let adicionais = await Adicional.find({})
+  return JSON.stringify(adicionais)
+}
+
+// função GET/POST de adicionais da categoria x
+async function pegarAdicionaisEspecificos(categoria){
+
+    let adicionais = await Adicional.find({categoria: categoria.categoria})
+    return JSON.stringify(adicionais)
+}
+
 // criar servidor
 const server = http.createServer(function (req, res) {
   const { url, method } = req
@@ -61,10 +74,8 @@ const server = http.createServer(function (req, res) {
       } else if (method == 'POST' && url == '/cardapio') {
 
         const item = JSON.parse(body)
+        
         item.id_interno = await idInterno()
-
-        const categoria = await Categoria.findOne({ nome: item.categoria })
-        item.categoria = categoria._id
 
         try {
           const result = await Cadastro.create(item);
@@ -128,6 +139,56 @@ const server = http.createServer(function (req, res) {
           if (error) return console.log(error)
         })
         res.end("Categoria alterada")
+      } else if (method == 'GET' && url == '/adicionais') {
+        res.setHeader('Content-Type', 'application/json')
+
+        let data = await pegarAdicionais()
+
+        res.end(data)
+      } else if (method == 'POST' && url == '/adicionais') {
+
+        const adicional = JSON.parse(body)
+
+        const categoria = await Categoria.findOne({ nome: adicional.categoria })
+        adicional.categoria = categoria._id
+
+        try {
+          const result = await Adicional.create(adicional);
+          res.end("Cadastro efetuado")
+        } catch (error) {
+          throw new Error(error);
+        }
+
+      } else if (method == 'DELETE' && url == '/adicionais') {
+
+
+        const idDeletado = JSON.parse(body)
+
+        Adicional.deleteOne({ _id: idDeletado.id }, (error, body) => {
+          if (error) return console.log(error)
+        })
+        res.end("Deletado")
+
+      } else if (method == 'PUT' && url == '/adicionais') {
+        // TO DO
+        const { id, novoNome, novoValor } = JSON.parse(body)
+
+        const categoria = await Adicional.findOne({ _id: id })
+
+        Adicional.updateOne({ _id: id }, {
+          nome: novoNome,
+          valor: novoValor,
+          categoria: categoria.categoria
+        }, (error, res) => {
+          if (error) return console.log(error)
+        })
+        res.end("Alterado")
+      } else if (method == 'POST' && url == '/categoria/adicionais') {
+        const categoria = JSON.parse(body)
+        
+        let data = await pegarAdicionaisEspecificos(categoria)
+
+        res.end(data)
       } else {
         serve(req, res, finalhandler(req, res))
       }
