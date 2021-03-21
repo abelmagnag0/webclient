@@ -1,6 +1,8 @@
 const Cadastro = require('./arquivos/modelos/cardapio'); // chamando a db
 const Adicional = require('./arquivos/modelos/adicional');
 const Categoria = require('./arquivos/modelos/categoria');
+const Logins = require('./arquivos/modelos/logins')
+
 const http = require("http");
 const host = 'localhost';
 const port = 8000;
@@ -52,6 +54,17 @@ async function pegarAdicionaisEspecificos(categoria){
     let adicionais = await Adicional.find({categoria: categoria.categoria})
     return JSON.stringify(adicionais)
 }
+
+// função cria Login
+async function criarLogin(){
+  try{
+    const result = await Logins.create({user: "alvaro",pass:123}) 
+  }catch(error){
+    throw new Error(error)
+  }
+}
+// para criar outro usuário descomente \/
+// criarLogin() 
 
 // criar servidor
 const server = http.createServer(function (req, res) {
@@ -189,6 +202,10 @@ const server = http.createServer(function (req, res) {
         let data = await pegarAdicionaisEspecificos(categoria)
 
         res.end(data)
+      } else if (method == 'GET' && url == '/login'){ 
+         let logins = await Logins.find({})
+         logins = JSON.stringify(logins)
+         res.end(logins)
       } else {
         serve(req, res, finalhandler(req, res))
       }

@@ -28,7 +28,7 @@
     }
 
     .corpo-content {
-      background-color: #9871f5;
+      display: block;
       padding: 1rem 2rem;
       max-width: 200px;
       border-radius: 5px;
@@ -36,14 +36,31 @@
       transition: background-color 200ms;
     }
 
-    .corpo-content:hover {
-      background-color: #8a2ae2;
+    .corpo-content form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    .corpo-content a {
-      text-decoration: none;
+    .corpo-content input {
+      padding: 1rem;
+      font-size: .8rem;
+    }
+
+    button {
       color: white;
       font-weight: bold;
+      margin-top: 1.5rem;
+      border: none;
+      border-radius: 5px;
+      padding: 1rem;
+      background-color: #9871f5;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #8a2ae2;
     }
   </style>
   <title>Abel</title>
@@ -52,9 +69,19 @@
 <body>
   <div class="corpo">
     <div class="corpo-content">
-      <a href="/cardapio.html">Acessar cardápio</a>
+      <form method="GET">
+        <div class="input-camp">
+          <input type="text" placeholder="Login" id="user" required>
+          <input type="password" placeholder="**********" id="pass" required>
+        </div>
+        <button type='submit' id="btn">Acessar</button>
+      </form>
     </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous"></script>
+  <script src="/js/pagina-index.js"></script>
 </body>
 
 </html>
