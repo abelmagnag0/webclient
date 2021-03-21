@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../database/conectar')
 const Schema = mongoose.Schema;
 
 const CategoriaSchema = new Schema({
@@ -8,4 +8,5 @@ const CategoriaSchema = new Schema({
   }
 });
 
-module.exports = { Categoria: mongoose.model('categoria', CategoriaSchema) };
+const CategoriaModel = mongoose.model('categoria', CategoriaSchema)
+module.exports = CategoriaModel

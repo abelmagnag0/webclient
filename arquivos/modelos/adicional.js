@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../database/conectar')
 const Schema = mongoose.Schema;
 
 const AdicionalSchema = new Schema({
@@ -12,4 +12,5 @@ const AdicionalSchema = new Schema({
   }
 });
 
-module.exports = { Adicional: mongoose.model('adicional', AdicionalSchema) };
+const AdicionalModel = mongoose.model('adicional', AdicionalSchema)
+module.exports = AdicionalModel

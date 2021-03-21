@@ -5,28 +5,52 @@ const instance = axios.create({
 let itensCadastrados = []
 
 function pegarItens() {
-  instance.get('cardapio').then(response => {
+  instance.get('cardapio').then(async response => {
     const { data, status } = response
     itensCadastrados = data
 
     if (status == 200) {
-      atualizarTabela()
+      itensCadastrados = await formatCategoria(itensCadastrados) 
     } else {
       console.log(data)
     }
   })
 }
 
-function removerTabela(parent) {
+function formatCategoria(itens){
+  instance.get('categoria').then(response => {
+    const { data, status } = response
+    
+    data.forEach(data => {
+      itens.forEach(item => {
+        if(item.categoria === data._id){
+          item.categoria = data.nome
+        }
+      })
+    })
+    if (status == 200) {
+      atualizarTabela()
+      pegarCategorias()
+    } else {
+      console.log(data)
+    }
+  })
+  return itens
+}
+
+function removerChildren(parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
   }
 }
 
 function atualizarTabela() {
+  form.reset()
   const tabela = document.querySelector("#tabela")
-
-  removerTabela(tabela)
+  const select = document.querySelector("#categorias")
+  removerChildren(tabela)
+  removerChildren(select)
+  
   itensCadastrados.forEach(item => {
     const tr = document.createElement("tr")
 
@@ -82,7 +106,7 @@ function criarItem(e) {
 
   const nome = document.querySelector("#nome").value
   const descricao = document.querySelector("#descricao").value
-  const categoria = document.querySelector("#categoria").value
+  const categoria = document.querySelector("#categorias").value
   const valor = document.querySelector("#valor").value
   const adicional = document.querySelector("#adicional").value
   const idPdv = document.querySelector("#id-pdv").value
@@ -101,6 +125,37 @@ function criarItem(e) {
     .catch(error => {
       console.log(error)
     })
+}
+
+async function pegarCategorias() {
+  instance.get('categoria').then(response => {
+    const { data, status } = response
+    let categoriasCadastradas = data
+
+    if (status == 200) {
+      atualizarCategorias(categoriasCadastradas)
+    } else {
+      console.log(data)
+    }
+  })
+}
+
+function atualizarCategorias(categoriasCadastradas) {
+  const select = document.querySelector("#categorias")
+
+  select.addEventListener("click", () => {
+    if (select.children.length === 1) {
+      alert("Você deve criar categorias primeiro!")
+    }
+  })
+
+  categoriasCadastradas.forEach(categoria => {
+    const option = document.createElement("option")
+    option.setAttribute("value", categoria.nome)
+    option.innerHTML = categoria.nome
+
+    select.appendChild(option)
+  })
 }
 
 async function removerItem() {

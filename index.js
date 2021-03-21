@@ -1,7 +1,9 @@
 const Cadastro = require('./arquivos/modelos/cardapio'); // chamando a db
-const http = require("http"); // se fuder 
-const host = 'localhost'; // se fuder
-const port = 8000; // se fuder tb,
+const Adicional = require('./arquivos/modelos/adicional');
+const Categoria = require('./arquivos/modelos/categoria');
+const http = require("http"); 
+const host = 'localhost'; 
+const port = 8000;
 
 // servidor html
 const serveStatic = require('serve-static')
@@ -9,9 +11,10 @@ const finalhandler = require('finalhandler');
 
 const serve = serveStatic('src/static', { 'index': ['index.html'] })
 
-// função GET
+// função GET cardapio
 async function pegarItens() {
   let itens = await Cadastro.find({})
+
   return JSON.stringify(itens)
 }
 
@@ -31,6 +34,12 @@ async function idInterno() {
   return ultimoID + 1
 }
 
+// função GET categorias
+async function pegarCategorias() {
+  let categorias = await Categoria.find({})
+  return JSON.stringify(categorias)
+}
+
 // criar servidor
 const server = http.createServer(function (req, res) {
   const { url, method } = req
@@ -45,7 +54,7 @@ const server = http.createServer(function (req, res) {
       if (method == 'GET' && url == '/cardapio') {
         res.setHeader('Content-Type', 'application/json')
 
-        const data = await pegarItens()
+        let data = await pegarItens()
 
         res.end(data)
         // POST LOGIC
@@ -54,15 +63,20 @@ const server = http.createServer(function (req, res) {
         const item = JSON.parse(body)
         item.id_interno = await idInterno()
 
-        Cadastro.create(item, function (err, body) {
-          if (err) return console.log(err)
-        })
+        const categoria = await Categoria.findOne({ nome: item.categoria })
+        item.categoria = categoria._id
 
-        res.end("Cadastro efetuado")
+        try {
+          const result = await Cadastro.create(item);
+          res.end("Cadastro efetuado")
+        } catch (error) {
+          throw new Error(error);
+        }
+
+
         // DELETE LOGIC
       } else if (method == 'DELETE' && url == '/cardapio') {
 
-        // a fazer
         const item = JSON.parse(body)
         const idDeletado = Number(item.id_interno)
 
@@ -74,9 +88,9 @@ const server = http.createServer(function (req, res) {
       } else if (method == 'PUT' && url == '/cardapio') {
 
         const data = JSON.parse(body)
-        const { nome, descricao, categoria, valor, adicional, idPdv, id} = data.data
-        
-        Cadastro.updateOne({id_interno: id}, {
+        const { nome, descricao, categoria, valor, adicional, idPdv, id } = data.data
+
+        Cadastro.updateOne({ id_interno: id }, {
           nome,
           descricao,
           categoria,
@@ -84,14 +98,39 @@ const server = http.createServer(function (req, res) {
           adicional,
           idPdv
         }, (error, response) => {
-          console.log(response)
+          if (error) return console.log(error)
         })
+        res.end("Editado")
+      } else if (method == 'GET' && url == '/categoria') {
 
-      }
-      else {
+        res.setHeader('Content-Type', 'application/json')
+        const data = await pegarCategorias()
+
+        res.end(data)
+      } else if (method == 'POST' && url == '/categoria') {
+
+        let nome = JSON.parse(body)
+        Categoria.create(nome, function (error) {
+          if (error) return console.log(error)
+        })
+        res.end("Categoria cadastrada!")
+      } else if (method == 'DELETE' && url == '/categoria') {
+        const idDeletado = JSON.parse(body)
+
+        Categoria.deleteOne({ _id: idDeletado.id }, (error, body) => {
+          if (error) return console.log(error)
+        })
+        res.end()
+      } else if (method == 'PUT' && url == '/categoria') {
+        const { id, novoNome } = JSON.parse(body)
+
+        Categoria.updateOne({ _id: id }, { nome: novoNome }, (error, res) => {
+          if (error) return console.log(error)
+        })
+        res.end("Categoria alterada")
+      } else {
         serve(req, res, finalhandler(req, res))
       }
-
     })
 })
 

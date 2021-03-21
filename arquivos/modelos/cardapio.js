@@ -1,6 +1,9 @@
 const mongoose = require('../database/conectar')
+const Schema = mongoose.Schema
 
-const CardapioScheme = mongoose.Schema({
+const Categoria = require('./categoria');
+
+const CardapioSchema = mongoose.Schema({
 
     id_interno: {
         type: Number,
@@ -19,22 +22,23 @@ const CardapioScheme = mongoose.Schema({
         require: true
     },
     categoria: {
-        type: String,
-        require: true
+        type: Schema.Types.ObjectId,
+        ref: 'categoria'
     },
     valor: {
         type: String,
         require: true
     },
     adicional: {
+        // type: Schema.Types.ObjectId,
+        // ref: 'adicional'
         type: String,
-        require: false
+        require: true
     }
 
 })
 
-
-const CardapioModel = mongoose.model('produtos', CardapioScheme)
+const CardapioModel = mongoose.model('produtos', CardapioSchema)
 module.exports = CardapioModel
 
 

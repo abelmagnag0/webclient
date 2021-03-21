@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +39,10 @@
     .title a:hover{
       color: #774fd1;
     }
-    .corpo form {
+    table{
+      margin-bottom: 50px;
+    }
+    form {
       max-width: 500px;
       margin: auto 0;
       display: flex;
@@ -48,7 +50,6 @@
       align-items: center;
       justify-content: center;
     }
-
     .input-camp {
       width: 100%;
     }
@@ -57,13 +58,13 @@
       display: block;
     }
 
-    .input-camp input, select {
+    .input-camp input {
       width: 48%;
       padding: 3px;
       margin-top: 5px;
     }
 
-    .corpo form button {
+    form button {
       margin-top: 3px;
 
     }
@@ -72,60 +73,34 @@
 
 </head>
 
-<body onload="pegarItens()">
+<body onload="pegarCategorias()">
   <div class="corpo">
-    <h1 class="title">Cardápio <a href="./categoria.html">Editar categorias</a></h1>
+    <h1 class="title">Todas Categorias</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Opções</th>
+        </tr>
+      </thead>
+      <tbody id="tabela">
+      </tbody>
+    </table>
+
     <form method="POST" id="form">
       <div class="input-camp">
         <label for="nome">Nome</label>
         <input type="text" id="nome" name="nome" required>
       </div>
-      <div class="input-camp">
-        <label for="descricao">Descrição</label>
-        <input type="text" id="descricao" name="descricao" required>
-      </div>
-      <div class="input-camp">
-        <label for="categorias">Categoria</label>
-        <select name="categorias" id="categorias">
-          <option value="">Selecione a categoria</option>
-        </select>
-      </div>
-      <div class="input-camp">
-        <label for="valor">Valor</label>
-        <input type="text" id="valor" name="valor" required>
-      </div>
-      <div class="input-camp">
-        <label for="adicional">Adicional</label>
-        <input type="text" id="adicional" name="adicional">
-      </div>
-      <div class="input-camp">
-        <label for="id-pdv">ID PDV</label>
-        <input type="text" id="id-pdv" name="id-pdv" required>
-      </div>
 
-      <button id="btn" type="submit">Submit</button>
+      <button id="btnCriar" type="submit">Submit</button>
     </form>
 
-    <h3>Cardápio atual</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>|NOME|</th>
-          <th>|DESCRIÇÃO|</th>
-          <th>|CATEGORIA|</th>
-          <th>|VALOR|</th>
-          <th>|ADICIONAL|</th>
-          <th>|ID INTERNO|</th>
-          <th>|ID PDV|</th>
-        </tr>
-      </thead>
-      <tbody id="tabela"></tbody>
-    </table>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
     integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
     crossorigin="anonymous"></script>
-  <script src="/js/pagina-cardapio.js"></script>
+  <script src="/js/pagina-categoria.js"></script>
 </body>
 
 </html>
